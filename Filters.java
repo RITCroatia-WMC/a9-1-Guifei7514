@@ -1,24 +1,16 @@
 /*
-@ASSESSME.USERID: userID
-@ASSESSME.AUTHOR: author, list of authors
+@ASSESSME.USERID: gt7514
+@ASSESSME.AUTHOR: Guifei Teng
 @ASSESSME.LANGUAGE: JAVA
-@ASSESSME.DESCRIPTION: ASS91
+@ASSESSME.DESCRIPTION: ASS 9.1
 @ASSESSME.ANALYZE: YES
 */
-
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
-
-import javafx.application.Application;
-import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.ScrollPane;
-import javafx.scene.layout.GridPane;
-import javafx.stage.Stage;
 
 /**
  * Displays data in a table format allowing the user to sort the table by the
@@ -48,13 +40,24 @@ public class Filters extends Application {
 
         // Use the header to create the first row as buttons.
         String[] header = fin.readLine ().strip ().split (","); 
-        for (String value : header) {
-            Button button = new Button (value);
+        // for (String value : header) {
+        //     Button button = new Button (value);
 
-            pane.add (button, col, row);
-            col++;
-        }
-        row++;
+        //     pane.add (button, col, row);
+        //     col++;
+        // }
+        // row++;
+        for (int col = o; col < header.length; col++) {
+            String columnName = header[col];
+            Borron button = new Borron();
+            int finalCol = col;
+            button.setOnAxtion (e ->) {
+                data.sort(Comparator.comparing(record -> record[finalCol]));
+                update();
+            });
+            pane.add(button,col,0
+        } 
+
 
         // Use the rest of the data to fill in the labels.
         String line = fin.readLine (); 
@@ -85,27 +88,33 @@ public class Filters extends Application {
         
     }
 
+    private Object getParameters() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'getParameters'");
+    }
+
     /**
-     * Helper funciton used to update all the labels based on the 
+     * Helper funciton used to update all the labels based on the
      * data. It should be called whenever the data changes.
      */
-    private void update () {
+    private void update() {
         int row = 0;
         for (List<Label> label_row : lables) {
             int col = 0;
             for (Label label : label_row) {
-                label.setText (data.get (row) [col]);
+                label.setText(data.get(row)[col]);
                 col++;
             }
             row++;
         }
     }
 
-    public static void main (String[] args) {
+    public static void main(String[] args) {
         // Example of hard coding the args, useful for debugging but
         // should be removed to test using command line arguments.
-        args = new String[] {"data/grades_010.csv"};
-        launch (args);
+        args = new String[] { "data/grades_010.csv" };
+
+        launch(args);
     }
-    
+
 }
